@@ -166,3 +166,20 @@ Como mínimo cinco, y tienen que cubrir:
 
 Los nombres de las pruebas en español y en forma de frase.
 No modifiques src/logica.ts. Al terminar corré npm test y pegame el resultado.
+
+
+
+
+P3
+
+Creá src/main.ts y src/estilo.css para mostrar Mi Pupusería
+en pantalla.
+
+REGLAS
+- main.ts NO decide nada: llama a las funciones de logica.ts y dibuja el
+  resultado. Si tenés que escribir una regla acá, está en el lugar equivocado:
+  decímelo en lugar de hacerlo.
+- Tres estados visibles: el inicio, el uso normal y el final.
+- Contraste alto y texto nunca menor a 16 píxeles.
+- Los colores según mi ficha. Sin imágenes ni librerías externas.
+- Importá el CSS desde main.ts con: import './estilo.css'
