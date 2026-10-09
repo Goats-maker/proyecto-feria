@@ -66,6 +66,33 @@ describe('lógica de Mi Pupusería', () => {
     expect(partida.diaActual).toBe(2)
   })
 
+  it('guarda el saldo final y la ganancia de cada día en el historial', () => {
+    const partida = crearPartida(0)
+    partida.climaDelDia = 'normal'
+    partida.precioCentavosPorPupusa = 100
+
+    for (const ingrediente of ['masa', 'queso', 'frijoles'] as const) {
+      expect(comprarIngrediente(partida, ingrediente)).toBe(true)
+      expect(comprarIngrediente(partida, ingrediente)).toBe(true)
+    }
+
+    expect(abrirPupuseria(partida)).toBe(true)
+    expect(partida.historialDinero).toEqual([
+      { dia: 1, dineroCentavos: 3700, gananciaCentavos: 700 },
+    ])
+  })
+
+  it('registra saldos consecutivos y resultados negativos cuando no hay ventas', () => {
+    const partida = crearPartida(0)
+
+    expect(abrirPupuseria(partida)).toBe(true)
+    expect(abrirPupuseria(partida)).toBe(true)
+    expect(partida.historialDinero).toEqual([
+      { dia: 1, dineroCentavos: 2700, gananciaCentavos: -300 },
+      { dia: 2, dineroCentavos: 2400, gananciaCentavos: -300 },
+    ])
+  })
+
   it('no permite comprar ni cambiar el precio después de terminar la partida', () => {
     const partida = crearPartida(12)
     partida.terminado = true

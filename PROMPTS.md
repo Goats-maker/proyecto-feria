@@ -183,3 +183,103 @@ REGLAS
 - Contraste alto y texto nunca menor a 16 píxeles.
 - Los colores según mi ficha. Sin imágenes ni librerías externas.
 - Importá el CSS desde main.ts con: import './estilo.css'
+
+
+
+P4
+Hacé que esto funcione bien en un celular:
+
+1. Todo lo que se toca tiene que medir al menos 44 píxeles de alto y de ancho.
+2. Nada se sale de la pantalla a lo ancho: cero desplazamiento horizontal.
+3. El texto nunca baja de 16 píxeles.
+4. Funciona con el dedo (toque) y también con teclado, las dos cosas.
+5. Agregá la etiqueta viewport en index.html si falta.
+
+No cambies las reglas ni la dificultad. Decime qué ajustaste.
+
+
+
+
+
+P5
+Revisá todo el proyecto buscando estos seis problemas, y decime cuáles tiene
+y en qué línea está cada uno:
+
+1. Lógica metida dentro de main.ts.
+2. Números sueltos fuera del objeto CONFIG.
+3. Un final bueno al que no se pueda llegar: hacé el cálculo con los números reales.
+4. Estado que no se reinicia bien al empezar de nuevo.
+5. Variables o funciones que quedaron sin uso.
+6. Alguna regla de mi ficha que las pruebas no cubran.
+
+INFORME
+No detecto reglas del negocio metidas en main.ts. Ahí se traducen los clics y las teclas en llamadas a logica.ts y se dibujan los resultados; por ejemplo, en main.ts y main.ts. El manejo de iniciar/reiniciar también pertenece al ciclo de la interfaz.
+
+Sí: hay números relevantes fuera de CONFIG. En logica.ts el límite de tres días para la racha está escrito como 3; en logica.ts y logica.ts la fórmula de variación usa 1 y 2. Además, main.ts contiene el divisor 100 para mostrar centavos como dólares, y main.ts y main.ts repiten los días y precios en textos de pantalla.
+
+No: el final bueno sí es alcanzable. Con dos lotes de cada ingrediente se gastan $10 en ingredientes y $3 en gas y leña; a $1 por pupusa, vender 20 deja $7 netos ese día. En la partida completa con semilla 0, el día de lluvia reduce las ventas a 18; el ingreso total es $198, los gastos suman $130 y el saldo final queda en $98. La prueba registra ese resultado en logica.test.ts y logica.test.ts.
+
+No detecto un problema de reinicio. main.ts crea una partida nueva y borra el mensaje anterior. crearPartida inicializa de nuevo los datos del juego en logica.ts. La semilla se basa en Date.now(), así que un reinicio muy rápido podría repetir la secuencia aleatoria, pero no deja datos previos de la partida.
+
+Sí: quedó código de plantilla sin uso. La función exportada setupCounter en counter.ts no tiene referencias. También existe la hoja anterior style.css, pero main.ts importa estilo.css, no esa hoja anterior.
+
+Sí: hay reglas sin cobertura de pruebas. En logica.test.ts se prueba el clima normal, pero no las probabilidades ni el efecto de lluvia/feria; tampoco hay pruebas explícitas para la repetibilidad de la semilla. No se comprueban la pérdida de masa sobrante y la conservación de queso/frijoles, ni la racha de tres ganancias, los consejos de ahorro o el cálculo del mejor día y los totales del resumen.
+
+PS C:\Users\cjfac\Proyecto Feria> npm test
+
+> proyecto-feria@0.0.0 test
+> vitest run
+
+
+ RUN  v5.0.3 C:/Users/cjfac/Proyecto Feria
+
+ ✓ test/logica.test.ts (8 tests) 27ms
+   ✓ lógica de Mi Pupusería (8)
+     ✓ arma el estado inicial con el dinero, inventario y precio correctos 8ms
+     ✓ compra un ingrediente cuando hay dinero y rechaza la compra cuandono alcanza 3ms
+     ✓ sube y baja el precio y rechaza valores fuera de las opciones permitidas 1ms
+     ✓ abre el negocio, vende según el inventario y registra ingresos y gastos 3ms
+     ✓ no permite comprar ni cambiar el precio después de terminar la partida 1ms
+     ✓ termina en bancarrota si no hay dinero suficiente para gas y leña 1ms
+     ✓ termina el día diez con derrota si no alcanza la meta de dinero 1ms
+     ✓ recorre la partida completa y alcanza la meta de setenta dólares 3ms
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  10:50:52
+   Duration  532ms (transform 63%, import 19%, tests 13%, worker 5%)
+
+PS C:\Users\cjfac\Proyecto Feria> npx tsc --noEmit
+PS C:\Users\cjfac\Proyecto Feria> 
+
+
+PROMPT X1 (MEJORA)
+Agregá una mejora al juego: un historial del dinero al final de cada día y,
+en la pantalla final, una gráfica de barras con ese historial.
+
+- El historial se calcula y guarda en logica.ts, sin tocar la pantalla.
+- main.ts solo dibuja las barras con divs y CSS, sin librerías ni imágenes.
+- Verde si ese día se ganó, rojo si se perdió.
+- Mantené 44 px en lo que se toca y texto de 16 px o más.
+- Agregá dos pruebas nuevas en test/logica.test.ts sin borrar las existentes.
+- No cambies las reglas ni la dificultad.
+Mostrame los cambios antes de aplicarlos y corré npm test al terminar.
+
+
+P6
+Escribí el archivo README.md en español con estas siete partes:
+
+1. Nombre y la frase de mi ficha.
+2. Qué hace y cómo se usa, en tres líneas.
+3. El enlace para abrirlo.
+4. Cómo correrlo en otra máquina: los comandos exactos.
+5. Dejá este espacio en blanco con un comentario para que lo llene yo:
+   «Qué dirigí yo y qué error encontré probando».
+6. Declaración de autoría: qué herramienta usé, que el código lo generó un
+   agente de IA bajo mi dirección, y qué partes puedo explicar.
+7. «Evidencias por fase»: cuatro subtítulos (Fase 1 La lógica, Fase 2 Las
+   pruebas, Fase 3 La pantalla y el móvil, Fase 4 Publicación) y debajo de
+   cada uno, con ![descripción](ruta), las imágenes de la carpeta evidencias/
+   que corresponden a esa fase. Usá los nombres de archivo que hay en esa carpeta.
+
+No inventes nada en las partes 5 y 6: dejalas para que las complete yo.

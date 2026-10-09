@@ -21,6 +21,12 @@ export type ResultadoDia = {
   consejo: string
 }
 
+export type RegistroHistorialDinero = {
+  dia: number
+  dineroCentavos: number
+  gananciaCentavos: number
+}
+
 export type ResumenFinal = {
   dineroInicialCentavos: number
   ingresosTotalesCentavos: number
@@ -39,6 +45,7 @@ export type EstadoPartida = {
   precioCentavosPorPupusa: PrecioPupusa
   climaDelDia: Clima
   resultados: ResultadoDia[]
+  historialDinero: RegistroHistorialDinero[]
   rachaGanancias: number
   ingresosTotalesCentavos: number
   gastosTotalesCentavos: number
@@ -139,6 +146,7 @@ export function crearPartida(semilla: number): EstadoPartida {
     precioCentavosPorPupusa: CONFIG.precioInicialCentavos,
     climaDelDia: sortearClima(generadorAleatorio),
     resultados: [],
+    historialDinero: [],
     rachaGanancias: 0,
     ingresosTotalesCentavos: 0,
     gastosTotalesCentavos: 0,
@@ -287,6 +295,11 @@ export function abrirPupuseria(partida: EstadoPartida): boolean {
           : 'Revisá tus compras y el precio para reducir las pérdidas.',
   }
   partida.resultados.push(resultado)
+  partida.historialDinero.push({
+    dia: partida.diaActual,
+    dineroCentavos: partida.dineroCentavos,
+    gananciaCentavos,
+  })
   partida.gastosDelDiaCentavos = 0
 
   if (partida.diaActual === CONFIG.diasTotales) {

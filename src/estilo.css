@@ -439,6 +439,103 @@ strong {
   color: #e0eafa;
 }
 
+.historial-panel {
+  margin: 0 0 24px;
+  padding: 18px;
+  border: 1px solid var(--azul-borde);
+  border-radius: 12px;
+  background: #0b223a;
+  text-align: left;
+}
+
+.descripcion-grafica {
+  margin: 8px 0 18px;
+  color: #e0eafa;
+}
+
+.grafica-desplazable {
+  overflow-x: auto;
+  padding: 4px 0 10px;
+}
+
+.grafica-historial {
+  min-width: max-content;
+  min-height: 250px;
+  display: grid;
+  grid-auto-columns: 58px;
+  grid-auto-flow: column;
+  align-items: end;
+  gap: 10px;
+}
+
+.columna-historial {
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.valor-historial,
+.dia-historial {
+  color: var(--blanco);
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.area-barra {
+  width: 100%;
+  height: 180px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.barra-historial {
+  width: 100%;
+  height: var(--altura-barra);
+  min-height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 7px 7px 2px 2px;
+}
+
+.barra-ganancia {
+  background: var(--verde);
+}
+
+.barra-perdida {
+  background: var(--rojo);
+}
+
+.leyenda-historial {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-top: 8px;
+  color: #e0eafa;
+}
+
+.leyenda-historial span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.muestra-leyenda {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.muestra-ganancia {
+  background: var(--verde);
+}
+
+.muestra-perdida {
+  background: var(--rojo);
+}
+
 @media (max-width: 680px) {
   .pantalla {
     width: min(100% - 20px, 520px);

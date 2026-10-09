@@ -76,6 +76,46 @@ function mostrarResultado(resultado: ResultadoDia | undefined): string {
   `
 }
 
+function mostrarGraficaHistorial(): string {
+  if (!partida || partida.historialDinero.length === 0) {
+    return '<p class="sin-resultado">No hay días registrados en el historial.</p>'
+  }
+
+  const saldoMaximo = Math.max(
+    1,
+    ...partida.historialDinero.map((registro) => registro.dineroCentavos),
+  )
+  const barras = partida.historialDinero
+    .map((registro) => {
+      const alturaPorcentual = Math.round(
+        (registro.dineroCentavos / saldoMaximo) * 100,
+      )
+      const claseResultado =
+        registro.gananciaCentavos > 0 ? 'barra-ganancia' : 'barra-perdida'
+
+      return `
+        <div class="columna-historial" role="img" aria-label="Día ${registro.dia}: saldo ${formatearDinero(registro.dineroCentavos)}, resultado ${formatearDinero(registro.gananciaCentavos)}">
+          <span class="valor-historial">${formatearDinero(registro.dineroCentavos)}</span>
+          <div class="area-barra">
+            <div class="barra-historial ${claseResultado}" style="--altura-barra: ${alturaPorcentual}%"></div>
+          </div>
+          <span class="dia-historial">Día ${registro.dia}</span>
+        </div>
+      `
+    })
+    .join('')
+
+  return `
+    <div class="grafica-desplazable">
+      <div class="grafica-historial">${barras}</div>
+    </div>
+    <div class="leyenda-historial">
+      <span><i class="muestra-leyenda muestra-ganancia"></i>Día con ganancia</span>
+      <span><i class="muestra-leyenda muestra-perdida"></i>Día con pérdida o sin ganancia</span>
+    </div>
+  `
+}
+
 function mostrarJuego(): void {
   if (!partida) {
     mostrarInicio()
@@ -187,6 +227,11 @@ function mostrarFinal(): void {
           <p><span>Ganancia total</span><strong>${formatearDinero(resumen.gananciaTotalCentavos)}</strong></p>
           <p class="total-final"><span>Dinero final</span><strong>${formatearDinero(resumen.dineroFinalCentavos)}</strong></p>
         </div>
+        <section class="historial-panel" aria-labelledby="titulo-historial">
+          <h2 id="titulo-historial">Historial del dinero</h2>
+          <p class="descripcion-grafica">Saldo disponible al final de cada día</p>
+          ${mostrarGraficaHistorial()}
+        </section>
         <p class="mejor-dia">${mejorDia
           ? `Tu mejor día fue el día ${mejorDia.dia}, con ${formatearDinero(mejorDia.gananciaCentavos)} de ganancia.`
           : 'No hubo días abiertos para comparar.'}</p>
